@@ -1,8 +1,8 @@
 package com.student.community.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.student.community.pojo.AccessTokenPOJO;
-import com.student.community.pojo.GitUserPOJO;
+import com.student.community.dto.AccessTokenDTO;
+import com.student.community.dto.GitUserDTO;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,14 @@ import java.io.IOException;
 public class GitHubProvider {
     /**
      * 使用post请求访问github 获取access_token
-     * @param accessTokenPOJO
+     * @param accessTokenDTO
      * @return
      */
-    public String getAccessToken(AccessTokenPOJO accessTokenPOJO) {
+    public String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
 
-        RequestBody body = RequestBody.create(JSON.toJSONString(accessTokenPOJO), mediaType);
+        RequestBody body = RequestBody.create(JSON.toJSONString(accessTokenDTO), mediaType);
         Request request = new Request.Builder()
                 .url("https://github.com/login/oauth/access_token")
                 .post(body)
@@ -39,7 +39,7 @@ public class GitHubProvider {
      * @param accessToken
      * @return
      */
-    public GitUserPOJO getGitUser(String accessToken) {
+    public GitUserDTO getGitUser(String accessToken) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token=" + accessToken)
@@ -47,8 +47,8 @@ public class GitHubProvider {
         try {
             Response response = client.newCall(request).execute();
             String string = response.body().string();
-            GitUserPOJO gitUserPOJO = JSON.parseObject(string, GitUserPOJO.class);
-            return gitUserPOJO;
+            GitUserDTO gitUserDTO = JSON.parseObject(string, GitUserDTO.class);
+            return gitUserDTO;
         } catch (IOException e) {
             e.printStackTrace();
         }

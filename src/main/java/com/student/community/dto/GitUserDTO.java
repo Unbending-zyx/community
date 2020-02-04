@@ -1,6 +1,6 @@
-package com.student.community.pojo;
+package com.student.community.dto;
 
-public class GitUserPOJO {
+public class GitUserDTO {
     private Long id;
     private String name;
     private String bio;//描述

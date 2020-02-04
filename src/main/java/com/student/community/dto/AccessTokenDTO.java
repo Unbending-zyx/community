@@ -1,7 +1,7 @@
-package com.student.community.pojo;
+package com.student.community.dto;
 
 
-public class AccessTokenPOJO {
+public class AccessTokenDTO {
     private String client_id;
     private String client_secret;
     private String code;
