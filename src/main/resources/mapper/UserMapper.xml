@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.student.community.dao.IUserDAO">
+    <insert id="insertUser">
+      INSERT INTO user(
+      gitAccountId,
+      username,
+      password,
+      gitName,
+      gitBio,
+      accountName,
+      token,
+      createTime,
+      updateTime
+      )
+      VALUES(
+      #{gitAccountId},
+      #{username},
+      #{password},
+      #{gitName},
+      #{gitBio},
+      #{accountName},
+      #{token},
+      #{createTime},
+      #{updateTime}
+      )
+    </insert>
+    <select id="selectUserBygitAccountId" resultType="User">
+      SELECT gitAccountId FROM user where gitAccountId=#{gitAccountId}
+    </select>
+    <update id="updateUseByGitAccountId">
+      update user set gitName=#{gitName},gitBio=#{gitBio},token=#{token}
+      where gitAccountId=#{gitAccountId}
+    </update>
+    <select id="selectUserByToken" resultType="User">
+      SELECT gitAccountId,username,gitName,gitBio,accountName,token,createTime,updateTime
+      FROM user
+      WHERE token=#{token}
+    </select>
+</mapper>

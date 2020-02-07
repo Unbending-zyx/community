@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+github:
+  client:
+    id: 0126d63e0e7c068e32f5
+    secret: e4532d9dd3770287d83024d1c422310d004580c2
+  redirect:
+    uri: http://localhost:8080/callback
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/community
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.student.community.vo

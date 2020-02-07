@@ -2,9 +2,10 @@ package com.student.community.controller;
 
 import com.student.community.dto.AccessTokenDTO;
 import com.student.community.dto.GitUserDTO;
-import com.student.community.mapper.UserMapper;
-import com.student.community.modle.User;
+import com.student.community.utils.LoginUtil;
+import com.student.community.vo.User;
 import com.student.community.provider.GitHubProvider;
+import com.student.community.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -21,7 +24,9 @@ public class AuthorizeController {
     @Autowired
     private GitHubProvider gitHubProvider;
     @Autowired
-    private UserMapper userMapper;
+    private IUserService userService;
+    @Autowired
+    private LoginUtil loginUtil;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -34,7 +39,8 @@ public class AuthorizeController {
     @RequestMapping(value = "/callback", method = RequestMethod.GET)
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -50,11 +56,18 @@ public class AuthorizeController {
             user.setGitAccountId(String.valueOf(gitUser.getId()));
             user.setGitName(gitUser.getName());
             user.setGitBio(gitUser.getBio());
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setCreateTime(System.currentTimeMillis());
             user.setUpdateTime(user.getCreateTime());
-            userMapper.insertUser(user);
-            request.getSession().setAttribute("user",gitUser);
+            //判断该条记录是否已经存在于数据库
+            if (!loginUtil.isGitUserRecord(user)){
+                userService.insertUser(user);
+            }else{
+                //如果该git用户已经存在  则只进行token的更新
+                userService.updateUseByGitAccountId(user);
+            }
+            response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else{
             //为空  登录失败  返回登录页面

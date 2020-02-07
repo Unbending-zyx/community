@@ -1,4 +1,4 @@
-package com.student.community.modle;
+package com.student.community.vo;
 
 
 public class User {
@@ -92,5 +92,21 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", gitAccountId='" + gitAccountId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", gitName='" + gitName + '\'' +
+                ", gitBio='" + gitBio + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", token='" + token + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }
