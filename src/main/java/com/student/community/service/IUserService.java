@@ -22,4 +22,19 @@ public interface IUserService {
      * @return
      */
     User selectUserByToken(String token);
+
+    /**
+     * 使用username查询user是否存在
+     * @param user
+     * @return
+     */
+    User selectUserByUserName(User user);
+
+    /**
+     * 通过id修改User
+     * @param user
+     * @return
+     */
+    int updateUseById(User user);
+    int updateUseByUserName(User user);
 }

@@ -3,6 +3,7 @@ package com.student.community.controller;
 import com.student.community.dto.AccessTokenDTO;
 import com.student.community.dto.GitUserDTO;
 import com.student.community.utils.LoginUtil;
+import com.student.community.utils.UserUtil;
 import com.student.community.vo.User;
 import com.student.community.provider.GitHubProvider;
 import com.student.community.service.IUserService;
@@ -27,6 +28,8 @@ public class AuthorizeController {
     private IUserService userService;
     @Autowired
     private LoginUtil loginUtil;
+    @Autowired
+    private UserUtil userUtil;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -56,18 +59,15 @@ public class AuthorizeController {
             user.setGitAccountId(String.valueOf(gitUser.getId()));
             user.setGitName(gitUser.getName());
             user.setGitBio(gitUser.getBio());
-            String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setCreateTime(System.currentTimeMillis());
-            user.setUpdateTime(user.getCreateTime());
+            User u=userUtil.setToken(user);
             //判断该条记录是否已经存在于数据库
-            if (!loginUtil.isGitUserRecord(user)){
-                userService.insertUser(user);
+            if (!loginUtil.isGitUserRecord(u)){
+                userService.insertUser(u);
             }else{
                 //如果该git用户已经存在  则只进行token的更新
-                userService.updateUseByGitAccountId(user);
+                userService.updateUseByGitAccountId(u);
             }
-            response.addCookie(new Cookie("token",token));
+            response.addCookie(new Cookie("token",u.getToken()));
             return "redirect:/";
         }else{
             //为空  登录失败  返回登录页面

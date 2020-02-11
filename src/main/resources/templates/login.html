@@ -11,33 +11,76 @@
     <script src="../js/login.js" type="application/javascript"></script>
 </head>
 <body style=" background: url(http://global.bing.com/az/hprichbg/rb/RavenWolf_EN-US4433795745_1920x1080.jpg) no-repeat center center fixed; background-size: 100%;">
-<div class="modal-dialog" style="margin-top: 10%;">
+<div class="modal-dialog" style="margin-top: 7%;">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title text-center" id="myModalLabel">登录</h4>
         </div>
         <div class="modal-body" id="model-body">
-            <div class="form-group">
-
-                <input type="text" class="form-control" placeholder="用户名" autocomplete="off">
-            </div>
-            <div class="form-group">
-
-                <input type="password" class="form-control" placeholder="密码" autocomplete="off">
-            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input id="loginUserName" name="username" type="text" class="form-control" placeholder="用户名" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input id="loginPassword" name="password" type="password" class="form-control" placeholder="密码" autocomplete="off">
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
             <div class="form-group">
-                <button type="button" class="btn btn-primary form-control">登录</button>
+                <button id="loginSubmit" type="button" class="btn btn-primary form-control">登录</button>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-default form-control">注册</button>
+                <button type="button" class="btn btn-default form-control" data-toggle="modal"
+                        data-target="#registered">注册
+                </button>
             </div>
             <div class="form-group">
                 <!--使用a标签访问github的接口-->
                 <a href="https://github.com/login/oauth/authorize?client_id=0126d63e0e7c068e32f5&redirect_uri=http://localhost:8080/callback&scope=user&state=1">
                     <button id="gitLogin" type="button" class="btn btn-default form-control">使用GitHub登录</button>
                 </a>
+            </div>
+        </div>
+        <!-- 注册模态框 -->
+        <div class="modal fade" id="registered" style="margin-top: 4%;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">注册</h4>
+                    </div>
+                    <!-- 模态框主体 -->
+                    <div class="modal-body">
+                        <form id="registeredMassage">
+                            <div class="form-group">
+                                <input type="text" id="registeredUsername" name="username" class="form-control"
+                                       placeholder="用户名" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="registeredPassword" name="password" class="form-control"
+                                       placeholder="密码" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="registeredConfirmPassword" name="password2"
+                                       class="form-control" placeholder="再次输入密码" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="registeredAccountName" name="accountName" class="form-control"
+                                       placeholder="昵称" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="registeredGitBio" name="gitBio" class="form-control"
+                                       placeholder="简介" autocomplete="off">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button id="registeredSubmit" type="button" class="btn btn-primary">注册</button>
+                        <button id="registeredClose" type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

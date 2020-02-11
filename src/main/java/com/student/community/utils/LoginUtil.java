@@ -10,6 +10,11 @@ public class LoginUtil {
     @Autowired
     private IUserDAO userDAO;
 
+    /**
+     * 判断git用户是否存在
+     * @param user
+     * @return
+     */
     public boolean isGitUserRecord(User user){
         User u=userDAO.selectUserBygitAccountId(user);
         if (u!=null){
@@ -22,5 +27,18 @@ public class LoginUtil {
             return false;
         }
 
+    }
+
+    /**
+     * 注册时  用于判断用户是否已经存在的方法
+     * @param user
+     * @return
+     */
+    public boolean isUserByUserName(User user){
+        User u=userDAO.selectUserByUserName(user);
+        if (u!=null){
+            return true;
+        }
+        return false;
     }
 }

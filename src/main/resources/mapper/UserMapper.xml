@@ -37,4 +37,34 @@
       FROM user
       WHERE token=#{token}
     </select>
+    <select id="selectUserByUserName" resultType="User">
+        SELECT gitAccountId,username,password,gitName,gitBio,accountName,token,createTime,updateTime
+        FROM user
+        WHERE username=#{username}
+    </select>
+    <update id="updateUseById">
+      update user
+      set
+      gitAccountId=#{gitAccountId},
+      username=#{username},
+      gitName=#{gitName},
+      gitBio=#{gitBio},
+      accountName=#{accountName},
+      token=#{token},
+      createTime=#{createTime},
+      updateTime=#{updateTime}
+      where id=#{id}
+    </update>
+    <update id="updateUseByUserName">
+      update user
+      set
+      gitAccountId=#{gitAccountId},
+      gitName=#{gitName},
+      gitBio=#{gitBio},
+      accountName=#{accountName},
+      token=#{token},
+      createTime=#{createTime},
+      updateTime=#{updateTime}
+      where username=#{username}
+    </update>
 </mapper>

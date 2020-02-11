@@ -26,4 +26,19 @@ public class UserServiceImpl implements IUserService {
     public User selectUserByToken(String token) {
         return userDAO.selectUserByToken(token);
     }
+
+    @Override
+    public User selectUserByUserName(User user) {
+        return userDAO.selectUserByUserName(user);
+    }
+
+    @Override
+    public int updateUseById(User user) {
+        return userDAO.updateUseById(user);
+    }
+
+    @Override
+    public int updateUseByUserName(User user) {
+        return userDAO.updateUseByUserName(user);
+    }
 }

@@ -10,11 +10,15 @@ public interface IUserDAO {
      */
     void insertUser(User user);
 
-
     User selectUserBygitAccountId(User user);
 
     int updateUseByGitAccountId(User user);
 
     User selectUserByToken(@Param("token") String token);
 
+    User selectUserByUserName(User user);
+
+    int updateUseById(User user);
+
+    int updateUseByUserName(User user);
 }
