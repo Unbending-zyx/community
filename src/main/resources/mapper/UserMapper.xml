@@ -11,7 +11,8 @@
       accountName,
       token,
       createTime,
-      updateTime
+      updateTime,
+      avatarUrl
       )
       VALUES(
       #{gitAccountId},
@@ -22,7 +23,8 @@
       #{accountName},
       #{token},
       #{createTime},
-      #{updateTime}
+      #{updateTime},
+      #{avatarUrl}
       )
     </insert>
     <select id="selectUserBygitAccountId" resultType="User">
@@ -33,12 +35,12 @@
       where gitAccountId=#{gitAccountId}
     </update>
     <select id="selectUserByToken" resultType="User">
-      SELECT gitAccountId,username,gitName,gitBio,accountName,token,createTime,updateTime
+      SELECT gitAccountId,username,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
       FROM user
       WHERE token=#{token}
     </select>
     <select id="selectUserByUserName" resultType="User">
-        SELECT gitAccountId,username,password,gitName,gitBio,accountName,token,createTime,updateTime
+        SELECT gitAccountId,username,password,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
         FROM user
         WHERE username=#{username}
     </select>
@@ -52,7 +54,8 @@
       accountName=#{accountName},
       token=#{token},
       createTime=#{createTime},
-      updateTime=#{updateTime}
+      updateTime=#{updateTime},
+      avatarUrl=#{avatarUrl}
       where id=#{id}
     </update>
     <update id="updateUseByUserName">
@@ -64,7 +67,8 @@
       accountName=#{accountName},
       token=#{token},
       createTime=#{createTime},
-      updateTime=#{updateTime}
+      updateTime=#{updateTime},
+      avatarUrl=#{avatarUrl}
       where username=#{username}
     </update>
 </mapper>

@@ -53,12 +53,13 @@ public class AuthorizeController {
 
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitUserDTO gitUser = gitHubProvider.getGitUser(accessToken);
-        if (gitUser!=null){
+        if (gitUser!=null && gitUser.getId()!=null){
             //不为空  登陆成功 设置cookie和session
             User user = new User();
             user.setGitAccountId(String.valueOf(gitUser.getId()));
             user.setGitName(gitUser.getName());
             user.setGitBio(gitUser.getBio());
+            user.setAvatarUrl(gitUser.getAvatar_url());
             User u=userUtil.setToken(user);
             //判断该条记录是否已经存在于数据库
             if (!loginUtil.isGitUserRecord(u)){

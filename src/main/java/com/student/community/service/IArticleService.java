@@ -1,9 +1,8 @@
-package com.student.community.dao;
-
+package com.student.community.service;
 
 import com.student.community.vo.Article;
 
-public interface IArticleDAO {
+public interface IArticleService {
     /**
      * 插入文章
      * @param article
