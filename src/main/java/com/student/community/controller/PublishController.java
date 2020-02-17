@@ -35,6 +35,9 @@ public class PublishController {
         article.setCreatorId(user.getId());
         article.setArticleCreateTime(System.currentTimeMillis());
         article.setArticleUpdateTime(article.getArticleCreateTime());
+        article.setLikeCount(0);
+        article.setCommentCount(0);
+        article.setReadingCount(0);
         int flag=articleService.insertArticle(article);
         if (1==flag){
             result.put("code",1);

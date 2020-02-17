@@ -11,8 +11,7 @@
         readingCount,
         likeCount,
         commentCount,
-        tag,
-        avatarUrl
+        tag
         )
         VALUES(
         #{title},
@@ -23,8 +22,49 @@
         #{readingCount},
         #{likeCount},
         #{commentCount},
-        #{tag},
-        #{avatarUrl}
+        #{tag}
         )
     </insert>
+
+    <select id="selectAllArticle" resultType="Article">
+        SELECT
+        id,
+        title,
+        description,
+        articleCreateTime,
+        articleUpdateTime,
+        creatorId,
+        readingCount,
+        likeCount,
+        commentCount,
+        tag
+        FROM article
+    </select>
+
+    <select id="selectArticleCount" resultType="int">
+        SELECT count(id) FROM article
+    </select>
+
+    <resultMap id="selectArticleDTO" type="com.student.community.dto.ArticleDTO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="articleCreateTime" property="articleCreateTime"/>
+        <result column="creatorId" property="creatorId"/>
+        <result column="readingCount" property="readingCount"/>
+        <result column="likeCount" property="likeCount"/>
+        <result column="commentCount" property="commentCount"/>
+        <result column="tag" property="tag"/>
+        <association property="user" javaType="User">
+            <id column="id" property="id"/>
+            <result column="gitAccountId" property="gitAccountId"/>
+            <result column="gitName" property="gitName"/>
+            <result column="gitBio" property="gitBio"/>
+            <result column="accountName" property="accountName"/>
+            <result column="avatarUrl" property="avatarUrl"/>
+        </association>
+    </resultMap>
+    <select id="selectAllArticleDTO" resultMap="selectArticleDTO">
+        SELECT * FROM article as a,user as u WHERE a.creatorId=u.id
+    </select>
 </mapper>

@@ -35,12 +35,12 @@
       where gitAccountId=#{gitAccountId}
     </update>
     <select id="selectUserByToken" resultType="User">
-      SELECT gitAccountId,username,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
+      SELECT id,gitAccountId,username,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
       FROM user
       WHERE token=#{token}
     </select>
     <select id="selectUserByUserName" resultType="User">
-        SELECT gitAccountId,username,password,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
+        SELECT id,gitAccountId,username,password,gitName,gitBio,accountName,token,createTime,updateTime,avatarUrl
         FROM user
         WHERE username=#{username}
     </select>
