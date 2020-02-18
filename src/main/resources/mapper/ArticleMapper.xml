@@ -67,4 +67,12 @@
     <select id="selectAllArticleDTO" resultMap="selectArticleDTO">
         SELECT * FROM article as a,user as u WHERE a.creatorId=u.id
     </select>
+
+    <select id="selectArticleCountByUserId" resultType="int" parameterType="int">
+        SELECT count(id) FROM article WHERE creatorId=#{creatorId}
+    </select>
+
+    <select id="selectAllArticleDTOByUserId" resultMap="selectArticleDTO" parameterType="User">
+        SELECT * FROM article as a,user as u WHERE a.creatorId=u.id and a.creatorId=#{id}
+    </select>
 </mapper>

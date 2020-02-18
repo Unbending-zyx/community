@@ -2,6 +2,7 @@ package com.student.community.service;
 
 import com.student.community.dto.ArticleDTO;
 import com.student.community.vo.Article;
+import com.student.community.vo.User;
 
 import java.util.List;
 
@@ -30,4 +31,16 @@ public interface IArticleService {
      * @return
      */
     List<ArticleDTO> selectAllArticleDTO();
+
+    /**
+     * 查找所有文章条数
+     * @return
+     */
+    int selectArticleCountByUserId(int creatorId);
+
+    /**
+     * 根据用户ID查找所有文章
+     * @return
+     */
+    List<ArticleDTO> selectAllArticleDTOByUserId(User user);
 }

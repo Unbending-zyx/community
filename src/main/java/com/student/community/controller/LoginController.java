@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,39 +40,43 @@ public class LoginController {
         Map<String, String> result = new HashMap<String, String>();
         User u = userUtil.setToken(user);
         //判断username是否已经存在
-        if (loginUtil.isUserByUserName(u)){
-            result.put("type","1");
-            result.put("msg","该用户已存在");
+        if (loginUtil.isUserByUserName(u)) {
+            result.put("type", "1");
+            result.put("msg", "该用户已存在");
             return result;
         }
         userService.insertUser(u);
-        result.put("type","0");
+        result.put("type", "0");
         result.put("msg", "注册成功");
         return result;
     }
 
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public @ResponseBody Map<String,Object> login(@RequestBody User user,HttpServletResponse response){
-        Map<String,Object> result=new HashMap<>();
-        User u=userService.selectUserByUserName(user);
-        if (u!=null){
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> login(@RequestBody User user,
+                              HttpServletResponse response,
+                              HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        User u = userService.selectUserByUserName(user);
+        if (u != null) {
             if (!user.getPassword().equals(u.getPassword())) {
-                result.put("code",2);
-                result.put("msg","密码错误");
+                result.put("code", 2);
+                result.put("msg", "密码错误");
                 return result;
             }
-            User userToken=userUtil.setToken(u);
+            User userToken = userUtil.setToken(u);
             userService.updateUseByUserName(userToken);
-            Cookie cookie=new Cookie("token",userToken.getToken());
+            Cookie cookie = new Cookie("token", userToken.getToken());
             cookie.setPath("/");
             response.addCookie(cookie);
-            result.put("code",0);
-            result.put("msg","登录成功");
+            request.getSession().setAttribute("user",userToken);
+            result.put("code", 0);
+            result.put("msg", "登录成功");
             return result;
-        }else{
-            result.put("code",1);
-            result.put("msg","用户名不存在");
+        } else {
+            result.put("code", 1);
+            result.put("msg", "用户名不存在");
             return result;
         }
     }

@@ -4,6 +4,7 @@ import com.student.community.dao.IArticleDAO;
 import com.student.community.dto.ArticleDTO;
 import com.student.community.service.IArticleService;
 import com.student.community.vo.Article;
+import com.student.community.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +34,16 @@ public class ArticleServiceImpl implements IArticleService {
     public List<ArticleDTO> selectAllArticleDTO() {
         return articleDAO.selectAllArticleDTO();
     }
+
+    @Override
+    public int selectArticleCountByUserId(int creatorId) {
+        return articleDAO.selectArticleCountByUserId(creatorId);
+    }
+
+    @Override
+    public List<ArticleDTO> selectAllArticleDTOByUserId(User user) {
+        return articleDAO.selectAllArticleDTOByUserId(user);
+    }
+
+
 }

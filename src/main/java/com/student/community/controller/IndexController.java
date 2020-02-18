@@ -4,9 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.student.community.dto.ArticleDTO;
 import com.student.community.service.IArticleService;
 import com.student.community.service.IUserService;
-import com.student.community.vo.Article;
+import com.student.community.utils.ArticleUtil;
 import com.student.community.vo.User;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +23,8 @@ public class IndexController {
     private IUserService userService;
     @Autowired
     private IArticleService articleService;
+    @Autowired
+    private ArticleUtil articleUtil;
 
     @GetMapping("/")
     public String getIndex(HttpServletRequest request) {
@@ -57,14 +58,11 @@ public class IndexController {
 
     @RequestMapping(value = "/articleListQuary", method = RequestMethod.GET)
     public @ResponseBody
-    Map<String, Object> articleListQuary(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
+    Map<String, Object> articleListQuary(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                         @RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
         Map<String, Object> result = new HashMap<>();
         int pageCount = articleService.selectArticleCount();
-        if (pageCount % pageSize != 0) {
-            pageCount = pageCount / pageSize + 1;
-        } else {
-            pageCount = pageCount / pageSize;
-        }
+        pageCount=articleUtil.buildPageCount(pageCount,pageSize);
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleDTO> articleList = articleService.selectAllArticleDTO();
         if (articleList != null && articleList.size() > 0 && pageCount > 0) {
