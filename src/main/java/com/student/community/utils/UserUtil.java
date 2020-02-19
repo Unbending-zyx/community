@@ -23,7 +23,7 @@ public class UserUtil {
         }else{
             user.setUpdateTime(user.getCreateTime());
         }
-        user.setAvatarUrl("http://b-ssl.duitang.com/uploads/item/201801/13/20180113233412_5GWXh.thumb.700_0.jpeg");
+        user.setAvatarUrl("/static/image/avatar.jpeg");
         return user;
     }
 }
