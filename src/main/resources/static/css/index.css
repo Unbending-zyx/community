@@ -8,12 +8,15 @@ body{
 }
 
 .imgSize{
-    width: 40px;
-    height: 40px;
-}
+     width: 40px;
+     height: 40px;
+ }
 
 .article_data{
     font-size: 12px;
     font-weight: normal;
     color: #999;
 }
+
+
+

@@ -1,0 +1,31 @@
+body{
+    background-color: #efefef;
+}
+
+.main{
+    background-color: white;
+    margin: 30px;
+}
+
+.article_data{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.setAColor{
+    text-decoration: none;
+    color: #999;
+    font-size: 12px;
+}
+
+.setAColor:hover{
+    text-decoration: none;
+    color: #1a8bc8;
+    font-size: 12px;
+}
+
+.imgSize{
+    width: 40px;
+    height: 40px;
+}

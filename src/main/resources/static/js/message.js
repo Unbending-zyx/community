@@ -43,17 +43,17 @@ function buildListQuary(response){
         var pageCount=response.pageCount;
         for (var i=0;i<data.length;i++){
             showList.append('<div class="media">\n' +
-                '                        <div class="media-left">\n' +
-                '                            <a href="#">\n' +
-                '                                <img class="media-object img-rounded imgSize" src="'+data[i].user.avatarUrl+'" alt="...">\n' +
-                '                            </a>\n' +
-                '                        </div>\n' +
-                '                        <div class="media-body">\n' +
-                '                            <h4 class="media-heading">'+data[i].title+'</h4>\n' +
-                '                            <span>'+data[i].description.substring(0,20)+'.....</span><br>\n' +
-                '                            <span class="article_data"> • '+data[i].likeCount+' 人点赞 • '+data[i].commentCount+' 个回复 • '+data[i].readingCount+' 次浏览   '+getMyDate(data[i].articleCreateTime)+'</span>\n' +
-                '                        </div>\n' +
-                '                    </div>');
+                '                   <div class="media-left">\n' +
+                '                     <a href="/article/'+data[i].id+'">\n' +
+                '                       <img class="media-object img-rounded imgSize" src="'+data[i].user.avatarUrl+'" alt="...">\n' +
+                '                     </a>\n' +
+                '                   </div>\n' +
+                '                   <div class="media-body">\n' +
+                '                       <a style="color: #333;text-decoration: none;" href="/article/'+data[i].id+'"><h4 class="media-heading">'+data[i].title+'</h4></a>' +
+                '                       <span>'+data[i].description.substring(0,20)+'.....</span><br>\n' +
+                '                       <span class="article_data"> • '+data[i].likeCount+' 人点赞 • '+data[i].commentCount+' 个回复 • '+data[i].readingCount+' 次浏览   '+getMyDate(data[i].articleCreateTime)+'</span>\n' +
+                '                   </div>' +
+                '</div>');
         }
 
         //拼装分页标签

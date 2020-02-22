@@ -45,5 +45,10 @@ public class ArticleServiceImpl implements IArticleService {
         return articleDAO.selectAllArticleDTOByUserId(user);
     }
 
+    @Override
+    public ArticleDTO selectArticleDTOById(Integer id) {
+        return articleDAO.selectArticleDTOById(id);
+    }
+
 
 }

@@ -75,4 +75,8 @@
     <select id="selectAllArticleDTOByUserId" resultMap="selectArticleDTO" parameterType="User">
         SELECT * FROM article as a,user as u WHERE a.creatorId=u.id and a.creatorId=#{id}
     </select>
+
+    <select id="selectArticleDTOById" resultMap="selectArticleDTO">
+        SELECT * FROM article as a,user as u WHERE a.creatorId=u.id and a.id=#{id}
+    </select>
 </mapper>

@@ -45,4 +45,10 @@ public interface IArticleDAO {
      * @return
      */
     List<ArticleDTO> selectAllArticleDTOByUserId(User user);
+
+    /**
+     * 根据文章ID查找文章及用户信息
+     * @return
+     */
+    ArticleDTO selectArticleDTOById(@Param("id") Integer id);
 }
