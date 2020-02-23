@@ -51,4 +51,18 @@ public interface IArticleDAO {
      * @return
      */
     ArticleDTO selectArticleDTOById(@Param("id") Integer id);
+
+    /**
+     * 根据文章ID查找文章
+     * @param id
+     * @return
+     */
+    Article selectArticleById(@Param("id") Integer id);
+
+    /**
+     * 根据id更新文章
+     * @param article
+     * @return
+     */
+    int updateArticleById(Article article);
 }

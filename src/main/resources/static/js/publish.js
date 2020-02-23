@@ -15,7 +15,7 @@ $(function () {
     };
 
 
-    var article = $('#articleFrom');
+    var id = $('#id');
     var title = $('#title');
     var description = $('#description');
     var tag = $('#tag');
@@ -36,33 +36,48 @@ $(function () {
         }
         var data=JSON.stringify(
             {
+                "id":id.val(),
                 "title":title.val(),
                 "description":description.val(),
                 "tag":tag.val()
             }
         );
-        $.ajax({
-            type: "POST",
-            url: "/publish/insert",
-            dataType: "json",
-            async:false,
-            contentType : "application/json",
-            data: data,
-            success: function (response) {
-                if (response.code==1){
-                    toastr.success(response.msg);
-                    title.val("");
-                    description.val("");
-                    tag.val("");
-                }
-                if (response.code==0){
-                    toastr.warning(response.msg);
-                }
-                if (response.code==2){
-                    toastr.warning(response.msg);
-                    window.location.href = "/login/show";
-                }
-            }
-        });
+        alert(id.val());
+        if (id.val()==''){
+            publishAJAX("/publish/insert","POST",data,null,success);
+        }else{
+            publishAJAX("/publish/update","PUT",data,null,success);
+        }
     });
 });
+
+function publishAJAX(url,type,data,async,successMethod){
+    $.ajax({
+        type:type,
+        url:url,
+        data:data,
+        async:(async==null?false:async),
+        dataType: "json",
+        contentType : "application/json",
+        success:function (response) {
+            successMethod(response);
+        }
+    });
+}
+
+function success(response){
+    if (response.code==1){
+        toastr.success(response.msg);
+        id.val("");
+        title.val("");
+        description.val("");
+        tag.val("");
+    }
+    if (response.code==0){
+        toastr.warning(response.msg);
+    }
+    if (response.code==2){
+        toastr.warning(response.msg);
+        window.location.href = "/login/show";
+    }
+}

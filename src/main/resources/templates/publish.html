@@ -20,6 +20,7 @@
                 <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
                 <hr>
                 <from id="articleFrom">
+                    <input id="id" name="id" value="" style="display:none;">
                     <div class="form-group">
                         <label for="title">话题标题（简单扼要）:</label>
                         <input type="text" class="form-control" name="title" id="title" placeholder="话题标题...">
@@ -44,4 +45,26 @@
         </div>
     </div>
 </body>
+<script th:inline="javascript">
+    var id=$('#id');
+    var title=$('#title');
+    var description=$('#description');
+    var tag=$('#tag');
+
+    var code='[[${code}]]';
+    var msg='[[${msg}]]';
+    var article='[[${article}]]';
+    var article=jQuery.parseJSON(article);
+    if (code==200){
+        alert("执行了");
+        alert(typeof article);
+        id.val(article.id);
+        alert(id.val());
+        title.val(article.title);
+        description.val(article.description);
+        tag.val(article.tag);
+    }else if(code==404 || code==400){
+        toastr.warning(msg);
+    }
+</script>
 </html>

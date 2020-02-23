@@ -79,4 +79,27 @@
     <select id="selectArticleDTOById" resultMap="selectArticleDTO">
         SELECT * FROM article as a,user as u WHERE a.creatorId=u.id and a.id=#{id}
     </select>
+
+    <select id="selectArticleById" resultType="Article">
+        SELECT
+        id,
+        title,
+        description,
+        articleCreateTime,
+        articleUpdateTime,
+        creatorId,
+        readingCount,
+        likeCount,
+        commentCount,
+        tag FROM article WHERE id=#{id}
+    </select>
+
+    <update id="updateArticleById">
+        UPDATE article SET
+        title=#{title},
+        description=#{description},
+        articleUpdateTime=#{articleUpdateTime},
+        tag=#{tag}
+        WHERE id=#{id}
+    </update>
 </mapper>

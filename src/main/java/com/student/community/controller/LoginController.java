@@ -80,4 +80,16 @@ public class LoginController {
         }
     }
 
+    @RequestMapping(value = "/loginout",method = RequestMethod.GET)
+    public String loginOut(HttpServletRequest request,HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie tokenCookie=new Cookie("token","");
+        //生命周期设置为0   即为立即失效
+        tokenCookie.setMaxAge(0);
+        //设置cookie的生效路径   /表示项目所有目录均生效
+        tokenCookie.setPath("/");
+        response.addCookie(tokenCookie);
+        return "redirect:/";
+    }
+
 }

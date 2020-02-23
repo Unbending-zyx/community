@@ -49,4 +49,18 @@ public interface IArticleService {
      * @return
      */
     ArticleDTO selectArticleDTOById(Integer id);
+
+    /**
+     * 根据文章ID查找文章
+     * @param id
+     * @return
+     */
+    Article selectArticleById(Integer id);
+
+    /**
+     * 根据id更新文章
+     * @param article
+     * @return
+     */
+    int updateArticleById(Article article);
 }
