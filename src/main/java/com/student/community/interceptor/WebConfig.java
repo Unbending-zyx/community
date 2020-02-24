@@ -19,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
         sessionRegistry.excludePathPatterns("/login/**");
         sessionRegistry.excludePathPatterns("/");
         sessionRegistry.excludePathPatterns("/articleListQuary");
+        sessionRegistry.excludePathPatterns("/error");
 
         sessionRegistry.excludePathPatterns("/static/**");
         sessionRegistry.excludePathPatterns("/js/**");

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,10 @@
     <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Nova+Flat' rel='stylesheet' type='text/css'>
     <link href="/static/css/style.css" rel="stylesheet" />
+    <script src="/static/js/jquery-3.4.1.js" type="application/javascript"></script>
+    <script src="/static/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/static/js/countUp.js" type="application/javascript"></script>
+    <script src="/static/js/custom.js" type="application/javascript"></script>
 </head>
 <body>
 <div class="container">
@@ -18,7 +22,7 @@
             <h1>  你做了什么？ </h1>
             <h5> 现在返回下面的行</h5>
             <span id="error-link"></span>
-            <h2>! 发生错误 !</h2>
+            <h2 th:text="${message}">! 发生错误 !</h2>
         </div>
     </div>
 
@@ -32,11 +36,5 @@
 
 </div>
 <!-- /.container -->
-
-
-<script src="/static/js/jquery-3.4.1.js"></script>
-<script src="/static/js/bootstrap.js"></script>
-<script src="/static/js/countUp.js"></script>
-<script src="/static/js/custom.js"></script>
 </body>
 </html>
