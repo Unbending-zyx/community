@@ -102,4 +102,9 @@
         tag=#{tag}
         WHERE id=#{id}
     </update>
+    <update id="updateArticleReadingCountById">
+        UPDATE article SET
+        readingCount=#{readingCount}
+        WHERE id=#{id}
+    </update>
 </mapper>

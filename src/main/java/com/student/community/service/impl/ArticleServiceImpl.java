@@ -60,5 +60,10 @@ public class ArticleServiceImpl implements IArticleService {
         return articleDAO.updateArticleById(article);
     }
 
+    @Override
+    public int updateArticleReadingCountById(ArticleDTO articleDTO) {
+        return articleDAO.updateArticleReadingCountById(articleDTO);
+    }
+
 
 }

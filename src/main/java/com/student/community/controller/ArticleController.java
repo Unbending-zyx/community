@@ -21,15 +21,19 @@ public class ArticleController {
     @Autowired
     private ArticleUtil articleUtil;
 
-    @RequestMapping(value = "/article/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    ModelAndView details(@PathVariable(name = "id") Integer id,ModelAndView modelAndView){
+    ModelAndView details(@PathVariable(name = "id") Integer id, ModelAndView modelAndView) {
         if (!articleUtil.isArticleExistsById(id)){
             throw new CustomizeException(StatusCode.ARTICLE_IS_NOT_EXISTS);
         }
-        ArticleDTO articleDTO=articleService.selectArticleDTOById(id);
+        //查找文章并返回
+        ArticleDTO articleDTO = articleService.selectArticleDTOById(id);
+        //修改其阅读数
+        articleDTO.setReadingCount(articleDTO.getReadingCount()+1);
+        articleService.updateArticleReadingCountById(articleDTO);
         modelAndView.setViewName("article");
-        modelAndView.addObject("articleDTO",articleDTO);
+        modelAndView.addObject("articleDTO", articleDTO);
         return modelAndView;
     }
 }

@@ -65,4 +65,11 @@ public interface IArticleDAO {
      * @return
      */
     int updateArticleById(Article article);
+
+    /**
+     * 根据Id修改阅读数
+     * @return
+     */
+    int updateArticleReadingCountById(ArticleDTO articleDTO);
+
 }
