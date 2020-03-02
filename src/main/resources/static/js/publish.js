@@ -42,7 +42,6 @@ $(function () {
                 "tag":tag.val()
             }
         );
-        alert(id.val());
         if (id.val()==''){
             publishAJAX("/publish/insert","POST",data,null,success);
         }else{

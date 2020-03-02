@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //判断请求时ajax
+//        if(request.getHeader("X-Requested-With") != null &&
+//                "XMLHttpRequest".equals(request.getHeader("X-Requested-With").toString())){
+//            return true;
+//        }
         User user=(User) request.getSession().getAttribute("user");
         if (user!=null){
             return true;

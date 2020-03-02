@@ -18,23 +18,23 @@ $(function(){
     //注册按钮的注册事件
     $('#registeredSubmit').click(function(){
         if (registeredUsername.val()==""){
-            alert("用户名不能为空");
+            toastr.warning("用户名不能为空");
             return;
         }
         if (registeredPassword.val()==""){
-            alert("密码不能为空");
+            toastr.warning("密码不能为空");
             return;
         }
         if (registeredConfirmPassword.val()==""){
-            alert("确认密码不能为空");
+            toastr.warning("确认密码不能为空");
             return;
         }
         if (registeredAccountName.val()==""){
-            alert("昵称不能为空");
+            toastr.warning("昵称不能为空");
             return;
         }
         if (registeredPassword.val()!=registeredConfirmPassword.val()){
-            alert("两次密码输入不一致");
+            toastr.warning("两次密码输入不一致");
             return;
         }
 
@@ -55,11 +55,11 @@ $(function(){
             data: data,
             success: function (response) {
                 if (response.type=="0"){
-                    alert(response.msg);
+                    toastr.success(response.msg);
                     $('#registeredClose').trigger('click');
                 }
                 if (response.type=="1"){
-                    alert(response.msg);
+                    toastr.warning(response.msg);
                 }
 
             }
@@ -71,17 +71,17 @@ $(function(){
         var loginUserName=$('#loginUserName');
         var loginPassword=$('#loginPassword');
         if (loginUserName.val()==""){
-            alert("用户名不能为空");
+            toastr.warning("用户名不能为空");
             return;
         }
         if (loginPassword.val()==""){
-            alert("密码不能为空");
+            toastr.warning("密码不能为空");
             return;
         }
         var data=JSON.stringify(
             {
                 "username":loginUserName.val(),
-                "password":loginUserName.val()
+                "password":loginPassword.val()
             }
         );
         $.ajax({

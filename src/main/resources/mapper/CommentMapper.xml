@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.student.community.dao.ICommentDAO">
+    <insert id="insertComment">
+        INSERT INTO comment(
+        type,
+        creatorId,
+        commentCreateTime,
+        commentUpdateTime,
+        likeCount,
+        commentContent,
+        parentId,
+        commentCount
+        )
+        VALUE(
+        #{type},
+        #{creatorId},
+        #{commentCreateTime},
+        #{commentUpdateTime},
+        #{likeCount},
+        #{commentContent},
+        #{parentId},
+        #{commentCount}
+        )
+    </insert>
+    <select id="selectCommentByParentId" resultType="Comment">
+        SELECT
+        id,
+        type,
+        creatorId,
+        commentCreateTime,
+        commentUpdateTime,
+        likeCount,
+        commentContent,
+        parentId,
+        commentCount
+        FROM comment WHERE id=#{id}
+    </select>
+
+    <resultMap id="buildCommentDTO" type="com.student.community.dto.CommentDTO">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="creatorId" property="creatorId"/>
+        <result column="commentCreateTime" property="commentCreateTime"/>
+        <result column="likeCount" property="likeCount"/>
+        <result column="commentContent" property="commentContent"/>
+        <result column="parentId" property="parentId"/>
+        <result column="commentCount" property="commentCount"/>
+        <association property="user" javaType="User">
+            <id column="id" property="id"/>
+            <result column="gitAccountId" property="gitAccountId"/>
+            <result column="gitName" property="gitName"/>
+            <result column="accountName" property="accountName"/>
+            <result column="avatarUrl" property="avatarUrl"/>
+        </association>
+    </resultMap>
+    <select id="selectFirstCommentByArticleId" resultMap="buildCommentDTO">
+        SELECT * FROM comment AS c,user AS u WHERE c.creatorId=u.id AND c.parentId=#{id} AND c.type=#{type}
+    </select>
+
+
+</mapper>

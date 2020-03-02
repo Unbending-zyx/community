@@ -70,6 +70,11 @@ public interface IArticleDAO {
      * 根据Id修改阅读数
      * @return
      */
-    int updateArticleReadingCountById(ArticleDTO articleDTO);
+    int updateArticleReadingCountById(@Param("id")int id);
 
+    /**
+     * 根据Id修改评论数  默认加1方法
+     * @return
+     */
+    int updateArticleCommentCountById(@Param("id")int id);
 }

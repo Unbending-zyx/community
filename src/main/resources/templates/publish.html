@@ -56,10 +56,7 @@
     var article='[[${article}]]';
     var article=jQuery.parseJSON(article);
     if (code==200){
-        alert("执行了");
-        alert(typeof article);
         id.val(article.id);
-        alert(id.val());
         title.val(article.title);
         description.val(article.description);
         tag.val(article.tag);

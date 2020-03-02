@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    private int id;
+    private Integer id;
     private String gitAccountId;
     private String username;
     private String password;
@@ -15,4 +15,5 @@ public class User {
     private Long createTime;
     private Long updateTime;
     private String avatarUrl;
+
 }

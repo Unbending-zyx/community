@@ -4,7 +4,7 @@ import com.student.community.dto.ArticleDTO;
 import com.student.community.exception.CustomizeException;
 import com.student.community.service.IArticleService;
 import com.student.community.utils.ArticleUtil;
-import com.student.community.utils.StatusCode;
+import com.student.community.enums.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +29,9 @@ public class ArticleController {
         }
         //查找文章并返回
         ArticleDTO articleDTO = articleService.selectArticleDTOById(id);
-        //修改其阅读数
         articleDTO.setReadingCount(articleDTO.getReadingCount()+1);
-        articleService.updateArticleReadingCountById(articleDTO);
+        //修改其阅读数
+        articleService.updateArticleReadingCountById(id);
         modelAndView.setViewName("article");
         modelAndView.addObject("articleDTO", articleDTO);
         return modelAndView;

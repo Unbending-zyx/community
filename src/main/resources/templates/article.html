@@ -16,35 +16,50 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2 id="articleTitle" th:text="${articleDTO.title}">发现</h2>
-            <span class="article_data">
-                作者：
-                <span th:if="${articleDTO.user.getAccountName()!=null}" th:text="${articleDTO.user.getAccountName()}"></span>
-                <span th:if="${articleDTO.user.getGitName()!=null}" th:text="${articleDTO.user.getGitName()}"></span>
-                &nbsp;|&nbsp;
-                发布时间：
-                <span th:text="${#dates.format(articleDTO.articleCreateTime,'yyyy-MM-dd HH:mm')}"></span>
-                &nbsp;|&nbsp;
-                阅读数：
-                <span th:text="${articleDTO.readingCount}"></span> &nbsp;
-            </span>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <!--显示文章内容-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${articleDTO.description}">
-            </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">
-
-            <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a th:if="${session.user!=null && articleDTO.creatorId==session.user.getId()}" th:href="@{'/publish/'+${articleDTO.id}}" class="setAColor">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    编辑
-                </a>
-            </span>
-
-        </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <!--话题内容展示-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>发起人</h4>
+                <h2 id="articleTitle" th:text="${articleDTO.title}"></h2>
+                <span class="article_data">
+                    作者：
+                    <span th:if="${articleDTO.user.getAccountName()!=null}"
+                          th:text="${articleDTO.user.getAccountName()}"></span>
+                    <span th:if="${articleDTO.user.getGitName()!=null}"
+                          th:text="${articleDTO.user.getGitName()}"></span>
+                    &nbsp;|&nbsp;
+                    发布时间：
+                    <span th:text="${#dates.format(articleDTO.articleCreateTime,'yyyy-MM-dd HH:mm')}"></span>
+                    &nbsp;|&nbsp;
+                    阅读数：
+                    <span th:text="${articleDTO.readingCount}"></span> &nbsp;
+                </span>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!--显示文章内容-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${articleDTO.description}">
+                </div>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">
+                <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <a th:if="${session.user!=null && articleDTO.creatorId==session.user.getId()}"
+                       th:href="@{'/publish/'+${articleDTO.id}}" class="setAColor">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        编辑
+                    </a>
+                </span>
+            </div>
+            <!--回复列表-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hr-margin" style="margin-bottom: 20px;">
+                <h4 style="font-weight: bold;"><span th:text="${articleDTO.commentCount}"></span>个回复</h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hr-margin"
+                    style="margin-top: 0px; margin-bottom:15px;">
+                <div id="commentList" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!--回复列表显示位置-->
+
+                </div>
+                <!--<hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hr-margin">-->
+            </div>
+            <!--回复输入框-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;" id="commentTextarea">
+                <h4 style="font-weight: bold;margin-bottom: 20px;">提交回复</h4>
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
@@ -52,18 +67,45 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h5 th:if="${articleDTO.user.getAccountName()!=null}" th:text="${articleDTO.user.getAccountName()}"></h5>
-                        <h5 th:if="${articleDTO.user.getGitName()!=null}" th:text="${articleDTO.user.getGitName()}"></h5>
+                        <h5 th:if="${articleDTO.user.getAccountName()!=null}"
+                            th:text="${articleDTO.user.getAccountName()}"></h5>
+                        <h5 th:if="${articleDTO.user.getGitName()!=null}"
+                            th:text="${articleDTO.user.getGitName()}"></h5>
+                    </div>
+                </div>
+                <input id="articleId" type="hidden" th:value="${articleDTO.id}">
+                <textarea id="commentContent" class="form-control margin10" rows="6"></textarea>
+                <button id="insertComment" type="button" class="btn btn-success btn-comment">回复</button>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 style="font-weight: bold">发起人</h4>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded imgSize" th:src="${articleDTO.user.getAvatarUrl()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 th:if="${articleDTO.user.getAccountName()!=null}"
+                            th:text="${articleDTO.user.getAccountName()}"></h5>
+                        <h5 th:if="${articleDTO.user.getGitName()!=null}"
+                            th:text="${articleDTO.user.getGitName()}"></h5>
                     </div>
                 </div>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>相关问题</h4>
+                <h4 style="font-weight: bold">相关问题</h4>
 
             </div>
         </div>
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+
+</script>
 </html>

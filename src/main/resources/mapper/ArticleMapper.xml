@@ -65,7 +65,7 @@
         </association>
     </resultMap>
     <select id="selectAllArticleDTO" resultMap="selectArticleDTO">
-        SELECT * FROM article as a,user as u WHERE a.creatorId=u.id
+        SELECT * FROM article as a,user as u WHERE a.creatorId=u.id order by articleCreateTime desc
     </select>
 
     <select id="selectArticleCountByUserId" resultType="int" parameterType="int">
@@ -104,7 +104,12 @@
     </update>
     <update id="updateArticleReadingCountById">
         UPDATE article SET
-        readingCount=#{readingCount}
+        readingCount=readingCount+1
+        WHERE id=#{id}
+    </update>
+    <update id="updateArticleCommentCountById">
+        UPDATE article SET
+        commentCount=commentCount+1
         WHERE id=#{id}
     </update>
 </mapper>

@@ -1,6 +1,6 @@
 package com.student.community.exception;
 
-import com.student.community.utils.StatusCode;
+import com.student.community.enums.StatusCode;
 
 public class CustomizeException extends RuntimeException {
     private String message;
