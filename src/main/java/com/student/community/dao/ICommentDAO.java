@@ -56,6 +56,4 @@ public interface ICommentDAO {
      */
     int selectLikeCountById(@Param("id") Integer id);
 
-
-
 }

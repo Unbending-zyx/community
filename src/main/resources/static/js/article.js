@@ -1,10 +1,13 @@
 $(function () {
     var articleId = $('#articleId');
     var commentContent = $('#commentContent');
+    var articleTag = $('#articleTag');
 
     var firstCommentUrl = "/comment/selectComment?type=1&parentId=" + articleId.val();
     articleAJAX(firstCommentUrl, "GET", null, null, buildFirstCommentList);
 
+    var relatedArticleUrl = "/findRelatedArticles?id=" + articleId.val() + "&tag=" + articleTag.val();
+    articleAJAX(relatedArticleUrl,"GET",null,null,buildRelatedArticleList)
 
     $('#insertComment').click(function () {
         if (commentContent.val() == "" || commentContent.val() == null) {
@@ -74,7 +77,7 @@ function buildFirstCommentList(response) {
                         '                                <h4 class="media-heading">' + commentDTOList[i].user.gitName + '</h4>\n' +
                         '                                <div>' + commentDTOList[i].commentContent + '</div>\n' +
                         '                                <div class="menu">\n' +
-                        '                                <span class="like_and_comment" data="'+commentDTOList[i].id+'" onclick="changeLike(this)">\n' +
+                        '                                <span class="like_and_comment" data="' + commentDTOList[i].id + '" onclick="changeLike(this)">\n' +
                         '                                    <span class="glyphicon glyphicon-thumbs-up icon"></span>\n' +
                         '                                    <span style="margin-right: 6px;">' + commentDTOList[i].likeCount + '</span>\n' +
                         '                                </span>\n' +
@@ -103,7 +106,7 @@ function buildFirstCommentList(response) {
                         '                                <h4 class="media-heading">' + commentDTOList[i].user.accountName + '</h4>\n' +
                         '                                <div>' + commentDTOList[i].commentContent + '</div>\n' +
                         '                                <div class="menu">\n' +
-                        '                                <span class="like_and_comment" data="'+commentDTOList[i].id+'" onclick="changeLike(this)">\n' +
+                        '                                <span class="like_and_comment" data="' + commentDTOList[i].id + '" onclick="changeLike(this)">\n' +
                         '                                    <span class="glyphicon glyphicon-thumbs-up icon"></span>\n' +
                         '                                    <span style="margin-right: 6px;">' + commentDTOList[i].likeCount + '</span>\n' +
                         '                                </span>\n' +
@@ -149,14 +152,15 @@ function getzf(num) {
 }
 
 var commentObject = null;
-var commentFirstId=-1;
-var commentSpan=null;
+var commentFirstId = -1;
+var commentSpan = null;
+
 //二级评论   操作方法   点击事件
 function secondComments(object) {
     var object = $(object);
-    commentSpan=object;
+    commentSpan = object;
     var id = object.attr("data");
-    commentFirstId=id;
+    commentFirstId = id;
     object.css("color", "#999");
     var comment = $('#comment_' + id);
     //var insertComment=$('#comment_'+id+' .well');
@@ -214,10 +218,10 @@ function buildSecondCommentList(response) {
                             '               </div>');
                     }
                 }
-                if(commentFirstId!=-1){
+                if (commentFirstId != -1) {
                     commentObject.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">\n' +
-                        '                                    <input type="text" class="form-control" placeholder="评论一下……" id="input-'+commentFirstId+'">\n' +
-                        '                                    <button type="button" class="btn btn-success pull-right" onclick="insertSecondComment(this)" data="'+commentFirstId+'">评论\n' +
+                        '                                    <input type="text" class="form-control" placeholder="评论一下……" id="input-' + commentFirstId + '">\n' +
+                        '                                    <button type="button" class="btn btn-success pull-right" onclick="insertSecondComment(this)" data="' + commentFirstId + '">评论\n' +
                         '                                    </button>\n' +
                         '</div>');
                 }
@@ -230,64 +234,76 @@ function buildSecondCommentList(response) {
     }
 }
 
-function insertSecondComment(object){
+function insertSecondComment(object) {
     var object = $(object);
     var parentId = object.attr("data");
-    var input=$('#input-'+parentId);
+    var input = $('#input-' + parentId);
 
-    if (input.val()=="" || input.val()==null){
+    if (input.val() == "" || input.val() == null) {
         toastr.warning("评论内容不能为空");
         return;
     }
-    var url="/comment/insert";
-    var data=JSON.stringify({
+    var url = "/comment/insert";
+    var data = JSON.stringify({
         "type": 2,
         "parentId": parentId,
         "commentContent": input.val()
     });
-    articleAJAX(url,"POST",data,null,insertSecondCommentSuccess);
+    articleAJAX(url, "POST", data, null, insertSecondCommentSuccess);
     input.val("");
 }
 
-function insertSecondCommentSuccess(response){
-    if (response.code==200){
+function insertSecondCommentSuccess(response) {
+    if (response.code == 200) {
         var secondCommentsUrl = "/comment/selectComment?type=2&parentId=" + commentFirstId;
         articleAJAX(secondCommentsUrl, "GET", null, null, buildSecondCommentList);
         //访问二级评论数的ajax方法
         var secondCommentCountUrl = "/comment/selectSecondCommentCount?type=2&parentId=" + commentFirstId;
-        articleAJAX(secondCommentCountUrl,"GET",null,null,changeSecondCommentCount)
+        articleAJAX(secondCommentCountUrl, "GET", null, null, changeSecondCommentCount)
 
-    }else{
+    } else {
         toastr.warning(response.msg);
     }
 }
 
-function changeSecondCommentCount(response){
-    if (response.code==200){
-        var commentCount=commentSpan.find("span").eq(1);
+function changeSecondCommentCount(response) {
+    if (response.code == 200) {
+        var commentCount = commentSpan.find("span").eq(1);
         commentCount.text(response.secondCommentCount);
+    } else {
+        toastr.warning(response.msg);
+    }
+}
+
+var likeObject = null;
+
+//点赞操作
+function changeLike(object) {
+    var object = $(object);
+    likeObject = object;
+    var firstCommentId = object.attr("data");
+    var likeUrl = "/comment/changeLike?parentId=" + firstCommentId;
+    articleAJAX(likeUrl, "GET", null, null, likeSuccess);
+}
+
+function likeSuccess(response) {
+    if (response.code == 200) {
+        var like = likeObject.find("span").eq(1);
+        like.text(response.likeCount);
+    } else {
+        toastr.warning(response.msg);
+    }
+}
+
+function buildRelatedArticleList(response){
+    if (response.code==200){
+        var relatedArticleList= $('#relatedArticleList');
+        var list=response.relatedArticles;
+        for (var i=0;i<list.length;i++){
+            relatedArticleList.append('<li><a href="/article/'+list[i].id+'">'+list[i].title+'</a></li>');
+        }
     } else{
         toastr.warning(response.msg);
     }
 }
-
-var likeObject=null;
-//点赞操作
-function changeLike(object){
-    var object =$(object);
-    likeObject=object;
-    var firstCommentId = object.attr("data");
-    var likeUrl="/comment/changeLike?parentId="+firstCommentId;
-    articleAJAX(likeUrl,"GET",null,null,likeSuccess);
-}
-
-function likeSuccess(response){
-    if (response.code==200){
-        var like=likeObject.find("span").eq(1);
-        like.text(response.likeCount);
-    }else{
-        toastr.warning(response.msg);
-    }
-}
-
 

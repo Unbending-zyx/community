@@ -39,7 +39,8 @@
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">
                 <!--显示标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <span class="label label-info" th:each="tag:${articleDTO.tag.split(',')}">
+                    <span class="label label-info article_tags" th:each="tag:${articleDTO.tag.split(',')}">
+                        <span class="glyphicon glyphicon-tags"></span>
                         <span class="label label-info" th:text="${articleDTO.tag}">Info</span>
                     </span>
                 </div>
@@ -87,6 +88,7 @@
                     </div>
                 </div>
                 <input id="articleId" type="hidden" th:value="${articleDTO.id}">
+                <input id="articleTag" type="hidden" th:value="${articleDTO.tag}">
                 <textarea id="commentContent" class="form-control margin10" rows="6"></textarea>
                 <button id="insertComment" type="button" class="btn btn-success btn-comment">回复</button>
 
@@ -112,7 +114,9 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 style="font-weight: bold">相关问题</h4>
-
+                <ul id="relatedArticleList" class="relatedArticleList">
+                    <!--相关问题显示-->
+                </ul>
             </div>
         </div>
     </div>

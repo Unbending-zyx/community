@@ -112,4 +112,7 @@
         commentCount=commentCount+1
         WHERE id=#{id}
     </update>
+    <select id="selectArticleByTags" resultType="Article">
+        SELECT id,title FROM article WHERE id!=#{id} and tag regexp '${tag}'
+    </select>
 </mapper>

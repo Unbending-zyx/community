@@ -70,5 +70,23 @@ public class ArticleServiceImpl implements IArticleService {
         return articleDAO.updateArticleCommentCountById(id);
     }
 
+    //处理tag  使之变为正则可用的格式
+    @Override
+    public List<Article> selectArticleByTags(int id, String tag) {
+        Article article=new Article();
+        String[] tags=tag.split(",");
+        String newTag="";
+        for (int i=0;i<tags.length;i++){
+            if (i==tags.length-1){
+                newTag=newTag+tags[i];
+            }else{
+                newTag=newTag+tags[i]+"|";
+            }
+        }
+        article.setId(id);
+        article.setTag(newTag);
+        return articleDAO.selectArticleByTags(article);
+    }
+
 
 }

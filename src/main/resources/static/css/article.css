@@ -81,3 +81,25 @@ body {
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
 }
+
+.article_tags{
+    margin-right: 5px;
+}
+
+.relatedArticleList {
+    font-size: 12px;
+    padding-left: 0px;
+    line-height: 20px;
+}
+
+.relatedArticleList li {
+    list-style:none;
+}
+
+.relatedArticleList li a{
+    text-decoration: none;
+}
+
+.relatedArticleList li a:hover{
+    text-decoration: none;
+}

@@ -85,4 +85,12 @@ public interface IArticleService {
      */
     int updateArticleCommentCountById(int id);
 
+    /**
+     * 使用标签查找文章的相关文章
+     * @param id  当前文章id
+     * @param tag 文章的标签   例   "Spring|SpringBoot|Java"  这种格式的  因为sql语句使用正则进行匹配
+     * @return
+     */
+    List<Article> selectArticleByTags(int id,String tag);
+
 }
