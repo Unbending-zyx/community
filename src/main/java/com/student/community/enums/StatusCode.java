@@ -9,7 +9,9 @@ public enum StatusCode {
     SUCCESS("200","成功"),
     USER_IS_NOT_EXISTS("301","用户未登录"),
     PARAM_ERROR("400","传入参数有误"),
-    SELECT_WRONG("401","查询失败请重试");
+    SELECT_WRONG("401","查询失败请重试"),
+    UPDATE_WRONG("402","更新失败请重试"),
+    SERVER_WRONG("500","服务器开小差，请重试");
 
     private String type;    //类型
     private String desc;    //描述

@@ -37,7 +37,7 @@ public class CommentController {
         Map<String, Object> result = new HashMap<>();
         comment.setCommentCreateTime(System.currentTimeMillis());
         comment.setCommentUpdateTime(comment.getCommentCreateTime());
-        if (comment==null || StringUtils.isBlank(comment.getCommentContent())){
+        if (comment == null || StringUtils.isBlank(comment.getCommentContent())) {
             result.put("code", StatusCode.COMMENT_IS_NULL.getType());
             result.put("msg", StatusCode.COMMENT_IS_NULL.getDesc());
             return result;
@@ -73,6 +73,7 @@ public class CommentController {
                 return result;
             }
             commentService.insertComment(comment);
+            commentService.updateCommentCommentCountById(comment.getParentId());
             result.put("code", StatusCode.SUCCESS.getType());
             result.put("msg", StatusCode.SUCCESS.getDesc());
             return result;
@@ -98,28 +99,75 @@ public class CommentController {
         return result;
     }
 
-    @RequestMapping(value = "/selectAllFirstComment", method = RequestMethod.GET)
+    @RequestMapping(value = "/selectComment", method = RequestMethod.GET)
     public @ResponseBody
     Map<String, Object> selectAllFirstComment(@RequestParam(name = "parentId") Integer parentId,
                                               @RequestParam(name = "type") Integer type,
                                               HttpServletRequest request) {
-        Map<String,Object> result=new HashMap<>();
-        if (type==null || parentId==null){
+        Map<String, Object> result = new HashMap<>();
+        if (type == null || parentId == null) {
             result.put("code", StatusCode.PARAM_ERROR.getType());
             result.put("msg", StatusCode.PARAM_ERROR.getDesc());
             return result;
         }
-        User user=(User)request.getSession().getAttribute("user");
-        if (user==null){
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             result.put("code", StatusCode.USER_IS_NOT_EXISTS.getType());
             result.put("msg", StatusCode.USER_IS_NOT_EXISTS.getDesc());
             return result;
         }
-        List<CommentDTO> commentDTOList=commentService.selectFirstCommentByArticleId(parentId,type);
-        result.put("code",StatusCode.SUCCESS.getType());
-        result.put("msg",StatusCode.SUCCESS.getDesc());
-        result.put("commentDTOList",commentDTOList);
+        List<CommentDTO> commentDTOList = commentService.selectFirstCommentByArticleId(parentId, type);
+        result.put("code", StatusCode.SUCCESS.getType());
+        result.put("msg", StatusCode.SUCCESS.getDesc());
+        result.put("commentDTOList", commentDTOList);
         return result;
     }
+
+    @RequestMapping(value = "/selectSecondCommentCount", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> selectSecondCommentCount(@RequestParam(name = "parentId") Integer parentId,
+                                                 @RequestParam(name = "type") Integer type) {
+        Map<String, Object> result = new HashMap<>();
+        if (parentId==null || parentId==0){
+            result.put("code", StatusCode.PARAM_ERROR.getType());
+            result.put("msg", StatusCode.PARAM_ERROR.getDesc());
+            return result;
+        }
+        Integer count=commentService.selectSecondCommentCountById(parentId,type);
+        if (count!=null){
+            result.put("code", StatusCode.SUCCESS.getType());
+            result.put("msg", StatusCode.SUCCESS.getDesc());
+            result.put("secondCommentCount", count);
+            return result;
+        }
+        result.put("code", StatusCode.SERVER_WRONG.getType());
+        result.put("msg", StatusCode.SERVER_WRONG.getDesc());
+        return result;
+    }
+
+    //增加点赞数  并返回修改后的点赞数
+    @RequestMapping(value = "/changeLike", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> changeLike(@RequestParam(name = "parentId") Integer parentId) {
+        Map<String,Object> result=new HashMap<>();
+        if(parentId==null){
+            result.put("code", StatusCode.PARAM_ERROR.getType());
+            result.put("msg", StatusCode.PARAM_ERROR.getDesc());
+            return result;
+        }
+        int flag=commentService.updateLikeCount(parentId);
+        if (flag>0){
+            int likeCount=commentService.selectLikeCountById(parentId);
+            result.put("code", StatusCode.SUCCESS.getType());
+            result.put("msg", StatusCode.SUCCESS.getDesc());
+            result.put("likeCount", likeCount);
+            return result;
+        }else{
+            result.put("code", StatusCode.UPDATE_WRONG.getType());
+            result.put("msg", StatusCode.UPDATE_WRONG.getDesc());
+            return result;
+        }
+    }
+
 
 }

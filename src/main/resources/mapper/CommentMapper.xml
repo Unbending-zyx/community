@@ -58,5 +58,24 @@
         SELECT * FROM comment AS c,user AS u WHERE c.creatorId=u.id AND c.parentId=#{id} AND c.type=#{type}
     </select>
 
+    <update id="updateCommentCommentCountById">
+        UPDATE comment SET
+        commentCount=commentCount+1
+        WHERE id=#{id}
+    </update>
+
+    <select id="selectSecondCommentCountById" resultType="int" parameterType="int">
+        SELECT COUNT(id) FROM comment WHERE parentId=#{id} AND type=#{type}
+    </select>
+
+    <update id="updateLikeCount">
+        UPDATE comment SET
+        likeCount=likeCount+1
+        WHERE id=#{id}
+    </update>
+
+    <select id="selectLikeCountById" resultType="int" parameterType="int">
+        SELECT likeCount FROM comment WHERE id=#{id}
+    </select>
 
 </mapper>

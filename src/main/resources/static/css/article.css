@@ -56,9 +56,28 @@ body {
 
 .like_and_comment {
     cursor: pointer;
-    
+
 }
-.like_and_comment:hover{
+
+.like_and_comment:hover {
     text-decoration: none;
     color: #499ef3;
+}
+
+.sub-comments {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn{
+    margin: 10px 0;
+}
+
+.secondComments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
 }

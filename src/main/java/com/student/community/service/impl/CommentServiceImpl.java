@@ -29,4 +29,24 @@ public class CommentServiceImpl implements ICommentService {
     public List<CommentDTO> selectFirstCommentByArticleId(Integer id,Integer type) {
         return commentDAO.selectFirstCommentByArticleId(id,type);
     }
+
+    @Override
+    public int updateCommentCommentCountById(Integer id) {
+        return commentDAO.updateCommentCommentCountById(id);
+    }
+
+    @Override
+    public int selectSecondCommentCountById(Integer id,Integer type) {
+        return commentDAO.selectSecondCommentCountById(id,type);
+    }
+
+    @Override
+    public int updateLikeCount(Integer id) {
+        return commentDAO.updateLikeCount(id);
+    }
+
+    @Override
+    public int selectLikeCountById(Integer id) {
+        return commentDAO.selectLikeCountById(id);
+    }
 }
