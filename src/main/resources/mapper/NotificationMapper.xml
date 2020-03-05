@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.student.community.dao.INotificationDAO">
+    <insert id="insertNotification">
+        INSERT INTO notification(
+        senderId,
+        senderName,
+        receiverId,
+        outerId,
+        outerTitle,
+        type,
+        notificationCreateTime,
+        status
+        )
+        VALUES(
+        #{senderId},
+        #{senderName},
+        #{receiverId},
+        #{outerId},
+        #{outerTitle},
+        #{type},
+        #{notificationCreateTime},
+        #{status}
+        )
+    </insert>
+
+    <select id="selectUnReadNotifyCountByReceiverId" resultType="int" parameterType="int">
+        SELECT COUNT(id) FROM notification WHERE status=0 AND receiverId=#{receiverId}
+    </select>
+
+    <select id="selectUnReadNotifyByReceiverId" parameterType="int" resultType="Notification">
+        SELECT * FROM notification  WHERE receiverId=#{receiverId} order by  notificationCreateTime  desc
+    </select>
+
+    <update id="updateStatusById">
+        UPDATE notification SET status=1 WHERE id=#{id}
+    </update>
+</mapper>

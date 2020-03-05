@@ -41,7 +41,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <span class="label label-info article_tags" th:each="tag:${articleDTO.tag.split(',')}">
                         <span class="glyphicon glyphicon-tags"></span>
-                        <span class="label label-info" th:text="${articleDTO.tag}">Info</span>
+                        <span class="label label-info" th:text="${tag}">Info</span>
                     </span>
                 </div>
                 <!--显示编辑按钮-->

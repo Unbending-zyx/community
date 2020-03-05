@@ -11,3 +11,15 @@ body{
     float: right;
     margin-bottom: 15px;
 }
+
+.article_tags{
+    display: inline-block;
+    margin: 10px 5px 10px 5px;
+    cursor:pointer;
+    height: 21px;
+}
+
+.tagDiv{
+    margin-top: 15px;
+    margin-bottom: 20px;
+}

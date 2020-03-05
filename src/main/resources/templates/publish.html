@@ -14,53 +14,70 @@
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
-    <div class="container-fluid main">
-        <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
-                <hr>
-                <from id="articleFrom">
-                    <input id="id" name="id" value="" style="display:none;">
-                    <div class="form-group">
-                        <label for="title">话题标题（简单扼要）:</label>
-                        <input type="text" class="form-control" name="title" id="title" placeholder="话题标题...">
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
+            <hr>
+            <from id="articleFrom">
+                <input id="id" name="id" value="" style="display:none;">
+                <div class="form-group">
+                    <label for="title">话题标题（简单扼要）:</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="话题标题...">
+                </div>
+                <div class="form-group">
+                    <label for="title">话题内容（必填，参照右侧提示）:</label>
+                    <textarea id="description" name="description" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签（简单扼要）:</label>
+                    <!--disabled="disabled"  使输入框无法输入-->
+                    <input type="text"  class="form-control" name="tag" id="tag"
+                           placeholder="请从列表中选择标签">
+                    <!--显示标签-->
+                    <div class="tagDiv">
+                        <!-- Nav tabs -->
+                        <ul id="tagsTop" class="nav nav-tabs" role="tablist">
+                            <!--一级标签显示-->
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div id="tagsBottom" class="tab-content">
+                            <!--二级标签显示-->
+                        </div>
+
                     </div>
-                    <div class="form-group">
-                        <label for="title">话题内容（必填，参照右侧提示）:</label>
-                        <textarea id="description" name="description" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="tag">添加标签（简单扼要）:</label>
-                        <input type="text" class="form-control" name="tag" id="tag" placeholder="输入标签，以逗号分隔">
-                    </div>
-                    <button id="articleSubmit" type="submit" class="btn btn-success btn-publish">发布</button>
-                </from>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <h3>问题发起指南</h3>
-                • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
-                • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
-                • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
-            </div>
+
+
+                </div>
+                <button id="articleSubmit" type="submit" class="btn btn-success btn-publish">发布</button>
+            </from>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
+            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
+            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
         </div>
     </div>
+</div>
 </body>
 <script th:inline="javascript">
-    var id=$('#id');
-    var title=$('#title');
-    var description=$('#description');
-    var tag=$('#tag');
+    var id = $('#id');
+    var title = $('#title');
+    var description = $('#description');
+    var tag = $('#tag');
 
-    var code='[[${code}]]';
-    var msg='[[${msg}]]';
-    var article='[[${article}]]';
-    var article=jQuery.parseJSON(article);
-    if (code==200){
+    var code = '[[${code}]]';
+    var msg = '[[${msg}]]';
+    var article = '[[${article}]]';
+    var article = jQuery.parseJSON(article);
+    if (code == 200) {
         id.val(article.id);
         title.val(article.title);
         description.val(article.description);
         tag.val(article.tag);
-    }else if(code==404 || code==400){
+    } else if (code == 404 || code == 400) {
         toastr.warning(msg);
     }
 </script>

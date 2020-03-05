@@ -2,11 +2,15 @@ package com.student.community.controller;
 
 import com.student.community.dto.CommentDTO;
 import com.student.community.enums.CommentTypeEnum;
+import com.student.community.enums.NotificationStatusEnum;
+import com.student.community.enums.NotificationTypeEnum;
 import com.student.community.enums.StatusCode;
 import com.student.community.service.IArticleService;
 import com.student.community.service.ICommentService;
+import com.student.community.service.INotificationService;
 import com.student.community.vo.Article;
 import com.student.community.vo.Comment;
+import com.student.community.vo.Notification;
 import com.student.community.vo.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,8 @@ public class CommentController {
     private ICommentService commentService;
     @Autowired
     private IArticleService articleService;
+    @Autowired
+    private INotificationService notificationService;
 
     //此注解增加事务   为的是协调插入评论与文章回复数更新的数据库操作的事务
     @Transactional
@@ -57,13 +63,13 @@ public class CommentController {
             result.put("msg", StatusCode.UNSELECTED_ARTICLE_FOR_COMMENT.getDesc());
             return result;
         }
-        //判断评论类型
+        //判断评论类型是否为空  或者类型错误
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             result.put("code", StatusCode.TYPE_PARAM_WRONG.getType());
             result.put("msg", StatusCode.TYPE_PARAM_WRONG.getDesc());
             return result;
         }
-
+        //判断评论类型
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //回复评论
             Comment dbcoment = commentService.selectCommentByParentId(comment.getParentId());
@@ -74,12 +80,29 @@ public class CommentController {
             }
             commentService.insertComment(comment);
             commentService.updateCommentCommentCountById(comment.getParentId());
+
+            //查询评论的父级文章  将文章title放入通知的outerTitle
+            Article commentParentArticle = articleService.selectArticleById(dbcoment.getParentId());
+            if (commentParentArticle == null) {
+                result.put("code", StatusCode.ARTICLE_IS_NOT_EXISTS.getType());
+                result.put("msg", StatusCode.ARTICLE_IS_NOT_EXISTS.getDesc());
+                return result;
+            }
+
+            //创建通知
+            if (user.getAccountName()!=null){
+                createNotify(comment, dbcoment.getCreatorId(),user.getAccountName(),commentParentArticle.getTitle(),NotificationTypeEnum.REPLY_COMMENT,commentParentArticle.getId());
+            }
+            if (user.getGitName()!=null){
+                createNotify(comment, dbcoment.getCreatorId(),user.getGitName(),commentParentArticle.getTitle(),NotificationTypeEnum.REPLY_COMMENT,commentParentArticle.getId());
+            }
+
             result.put("code", StatusCode.SUCCESS.getType());
             result.put("msg", StatusCode.SUCCESS.getDesc());
             return result;
         }
         if (comment.getType() == CommentTypeEnum.ARTICLE.getType()) {
-            //回复问题
+            //回复话题
             Article article = articleService.selectArticleById(comment.getParentId());
             if (article == null) {
                 result.put("code", StatusCode.ARTICLE_IS_NOT_EXISTS.getType());
@@ -89,6 +112,14 @@ public class CommentController {
                 //需要事务管理
                 commentService.insertComment(comment);
                 articleService.updateArticleCommentCountById(article.getId());
+                //创建通知
+                if (user.getAccountName()!=null){
+                    createNotify(comment, article.getCreatorId(),user.getAccountName(),article.getTitle(),NotificationTypeEnum.REPLY_ARTICLE,article.getId());
+                }
+                if (user.getGitName()!=null){
+                    createNotify(comment, article.getCreatorId(),user.getGitName(),article.getTitle(),NotificationTypeEnum.REPLY_ARTICLE,article.getId());
+                }
+
                 result.put("code", StatusCode.SUCCESS.getType());
                 result.put("msg", StatusCode.SUCCESS.getDesc());
                 return result;
@@ -97,6 +128,19 @@ public class CommentController {
         result.put("code", StatusCode.PARAM_ERROR.getType());
         result.put("msg", StatusCode.PARAM_ERROR.getDesc());
         return result;
+    }
+
+    private void createNotify(@RequestBody Comment comment, int receiver, String senderName, String outerTitle, NotificationTypeEnum notificationTypeEnum, Integer parentId) {
+        Notification notification=new Notification();
+        notification.setNotificationCreateTime(System.currentTimeMillis());
+        notification.setType(notificationTypeEnum.getType());
+        notification.setOuterId(parentId);
+        notification.setOuterTitle(outerTitle);
+        notification.setSenderId(comment.getCreatorId());
+        notification.setSenderName(senderName);
+        notification.setReceiverId(receiver);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationService.insertNotification(notification);
     }
 
     @RequestMapping(value = "/selectComment", method = RequestMethod.GET)

@@ -1,9 +1,12 @@
 package com.student.community.controller;
 
+import com.student.community.cache.TagCache;
+import com.student.community.dto.TagDTO;
 import com.student.community.service.IArticleService;
 import com.student.community.utils.ArticleUtil;
 import com.student.community.vo.Article;
 import com.student.community.vo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/publish")
@@ -82,6 +86,14 @@ public class PublishController {
             result.put("code", 2);
             result.put("msg", "用户未登录");
         }
+
+        String invalid = TagCache.filterInvalid(article.getTag());
+        if (StringUtils.isNotBlank(invalid)){
+            result.put("code", 3);
+            result.put("msg", "输入非法标签:"+invalid);
+            return result;
+        }
+
         article.setCreatorId(user.getId());
         article.setArticleCreateTime(System.currentTimeMillis());
         article.setArticleUpdateTime(article.getArticleCreateTime());
@@ -98,4 +110,15 @@ public class PublishController {
         }
         return result;
     }
+
+    @RequestMapping(value = "/getTags", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> getTags() {
+        Map<String, Object> result = new HashMap<>();
+        List<TagDTO> tagDTOS=TagCache.getTags();
+        result.put("allTags",tagDTOS);
+        return result;
+    }
+
+
 }
