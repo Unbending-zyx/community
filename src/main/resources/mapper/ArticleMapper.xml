@@ -115,4 +115,15 @@
     <select id="selectArticleByTags" resultType="Article">
         SELECT id,title FROM article WHERE id!=#{id} and tag regexp '${tag}'
     </select>
+    
+    <select id="selectArticleCountByTitleLike" resultType="int">
+        SELECT COUNT(id) FROM article WHERE title regexp '${title}'
+    </select>
+
+    <select id="selectArticleDTOByTitleLike" resultMap="selectArticleDTO">
+        SELECT *
+        FROM article as a,user as u
+        WHERE a.creatorId=u.id AND title regexp '${title}'
+        order by articleCreateTime desc
+    </select>
 </mapper>

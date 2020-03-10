@@ -32,9 +32,10 @@ public class PublishController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView articleDetails(@PathVariable("id") int id,
-                                       ModelAndView modelAndView,
-                                       HttpServletRequest request) {
+    public @ResponseBody
+    ModelAndView articleDetails(@PathVariable("id") int id,
+                                ModelAndView modelAndView,
+                                HttpServletRequest request) {
         modelAndView.setViewName("publish");
         Article article = articleService.selectArticleById(id);
         if (article == null) {
@@ -46,7 +47,10 @@ public class PublishController {
         if (articleUtil.isArticleUserCreated(article, user)) {
             modelAndView.addObject("code", 200);
             modelAndView.addObject("msg", "成功");
-            modelAndView.addObject("article", article);
+            modelAndView.addObject("title", article.getTitle());
+            modelAndView.addObject("description", article.getDescription());
+            modelAndView.addObject("tag", article.getTag());
+            modelAndView.addObject("id", article.getId());
             return modelAndView;
         } else {
             modelAndView.addObject("code", 400);
@@ -88,9 +92,9 @@ public class PublishController {
         }
 
         String invalid = TagCache.filterInvalid(article.getTag());
-        if (StringUtils.isNotBlank(invalid)){
+        if (StringUtils.isNotBlank(invalid)) {
             result.put("code", 3);
-            result.put("msg", "输入非法标签:"+invalid);
+            result.put("msg", "输入非法标签:" + invalid);
             return result;
         }
 
@@ -115,8 +119,8 @@ public class PublishController {
     public @ResponseBody
     Map<String, Object> getTags() {
         Map<String, Object> result = new HashMap<>();
-        List<TagDTO> tagDTOS=TagCache.getTags();
-        result.put("allTags",tagDTOS);
+        List<TagDTO> tagDTOS = TagCache.getTags();
+        result.put("allTags", tagDTOS);
         return result;
     }
 

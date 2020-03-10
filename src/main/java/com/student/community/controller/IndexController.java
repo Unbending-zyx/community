@@ -58,19 +58,34 @@ public class IndexController {
 
     @RequestMapping(value = "/articleListQuary", method = RequestMethod.GET)
     public @ResponseBody
-    Map<String, Object> articleListQuary(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+    Map<String, Object> articleListQuary(@RequestParam(name = "selectArticleText", defaultValue = "") String selectArticleText,
+                                         @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                          @RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
         Map<String, Object> result = new HashMap<>();
-        int pageCount = articleService.selectArticleCount();
-        pageCount=articleUtil.buildPageCount(pageCount,pageSize);
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticleDTO> articleList = articleService.selectAllArticleDTO();
-        if (articleList != null && articleList.size() > 0 && pageCount > 0) {
-            result.put("pageCount", pageCount);
-            result.put("pageNum", pageNum);
-            result.put("code", 200);
-            result.put("articleListQuary", articleList);
+        if ("".equals(selectArticleText)){
+            int pageCount = articleService.selectArticleCount();
+            pageCount = articleUtil.buildPageCount(pageCount, pageSize);
+            PageHelper.startPage(pageNum, pageSize);
+            List<ArticleDTO> articleList = articleService.selectAllArticleDTO();
+            if (articleList != null && articleList.size() > 0 && pageCount > 0) {
+                result.put("pageCount", pageCount);
+                result.put("pageNum", pageNum);
+                result.put("code", 200);
+                result.put("articleListQuary", articleList);
+            }
+            return result;
+        }else{
+            return articleService.selectArticleDTOByTitleLike(selectArticleText,pageNum,pageSize);
         }
+
+    }
+
+    @RequestMapping(value = "/selectArticle", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> selectArticle(@RequestParam(name = "selectArticleText", defaultValue = "1") String selectArticleText,
+                                      @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                      @RequestParam(name = "pageSize", defaultValue = "12") int pageSize) {
+        Map<String,Object> result=articleService.selectArticleDTOByTitleLike(selectArticleText,pageNum,pageSize);
         return result;
     }
 

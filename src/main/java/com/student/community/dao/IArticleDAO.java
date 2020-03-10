@@ -85,4 +85,18 @@ public interface IArticleDAO {
      * @return
      */
     List<Article> selectArticleByTags(Article article);
+
+    /**
+     * 返回title模糊查询条数
+     * @param title
+     * @return
+     */
+    int selectArticleCountByTitleLike(@Param("title") String title);
+
+    /**
+     * 返回title模糊查询文章及用户对象封装
+     * @param title
+     * @return
+     */
+    List<ArticleDTO> selectArticleDTOByTitleLike(@Param("title") String title);
 }

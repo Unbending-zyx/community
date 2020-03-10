@@ -5,6 +5,7 @@ import com.student.community.vo.Article;
 import com.student.community.vo.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IArticleService {
     /**
@@ -93,4 +94,12 @@ public interface IArticleService {
      */
     List<Article> selectArticleByTags(int id,String tag);
 
+    /**
+     * 这是搜索文章的按钮的功能
+     * @param selectArticleText
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    Map<String,Object> selectArticleDTOByTitleLike(String selectArticleText,int pageNum,int pageSize);
 }

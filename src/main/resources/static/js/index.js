@@ -1,3 +1,4 @@
+var selectArticleText="";
 $(function(){
     //toastr初始化
     toastr.options = {
@@ -13,8 +14,8 @@ $(function(){
         "showMethod": "fadeIn",//显示时的动画方式
         "hideMethod": "fadeOut" //消失时的动画方式
     };
-    //indexAJAX("/articleList","GET",null,null,buildList);
-    var url="/articleListQuary?pageNum=1&pageSize=12";
+
+    var url="/articleListQuary?selectArticleText="+selectArticleText+"&pageNum=1&pageSize=12";
     indexAJAX(url,"GET",null,null,buildListQuary);
 });
 
@@ -32,27 +33,10 @@ function indexAJAX(url,type,data,async,successMethod){
     });
 }
 
-function buildList(response){
-    var showList=$('#showList');
-    if (response.code==200){
-        var data=response.data;
-        for (var i=0;i<data.length;i++){
-            showList.append('<div class="media">\n' +
-                '                        <div class="media-left">\n' +
-                '                            <a href="#">\n' +
-                '                                <img class="media-object img-rounded imgSize" src="'+data[i].user.avatarUrl+'" alt="...">\n' +
-                '                            </a>\n' +
-                '                        </div>\n' +
-                '                        <div class="media-body">\n' +
-                '                            <h4 class="media-heading">'+data[i].title+'</h4>\n' +
-                '                            <span>'+data[i].description.substring(0,20)+'.....</span><br>\n' +
-                '                            <span class="article_data"> • '+data[i].likeCount+' 人点赞 • '+data[i].commentCount+' 个回复 • '+data[i].readingCount+' 次浏览   '+getMyDate(data[i].articleCreateTime)+'</span>\n' +
-                '                        </div>\n' +
-                '                    </div>');
-        }
-    }else{
-        toastr.warning("页面加载失败，请重试");
-    }
+function selectArticleByTitleLike(){
+    selectArticleText=$('#selectArticleText').val();
+    var url="/articleListQuary?selectArticleText="+selectArticleText+"&pageNum=1&pageSize=12";
+    indexAJAX(url,"GET",null,null,buildListQuary);
 }
 
 function buildListQuary(response){
@@ -156,7 +140,7 @@ function buildListQuary(response){
 }
 
 function pageClick(pageNum){
-    var url="/articleListQuary?pageNum="+pageNum+"&pageSize=12";
+    var url="/articleListQuary?selectArticleText="+selectArticleText+"&pageNum="+pageNum+"&pageSize=12";
     indexAJAX(url,"GET",null,null,buildListQuary);
 }
 

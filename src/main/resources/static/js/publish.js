@@ -70,10 +70,12 @@ function publishAJAX(url,type,data,async,successMethod){
 function success(response){
     if (response.code==1){
         toastr.success(response.msg);
-        id.val("");
-        title.val("");
-        description.val("");
-        tag.val("");
+        $('#id').val("");
+        $('#title').val("");
+        $('#description').text("");
+        //清空富文本编辑器自欺欺人的方法
+        // $('.CodeMirror-code').html("");
+        $('#tag').val("");
     }
     if (response.code==0 || response.code==3){
         toastr.warning(response.msg);

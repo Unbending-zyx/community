@@ -1,20 +1,27 @@
 package com.student.community.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.student.community.dao.IArticleDAO;
 import com.student.community.dto.ArticleDTO;
 import com.student.community.service.IArticleService;
+import com.student.community.utils.ArticleUtil;
 import com.student.community.vo.Article;
 import com.student.community.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("articleService")
 public class ArticleServiceImpl implements IArticleService {
 
     @Autowired
     private IArticleDAO articleDAO;
+    @Autowired
+    private ArticleUtil articleUtil;
+
     @Override
     public int insertArticle(Article article) {
         return articleDAO.insertArticle(article);
@@ -74,18 +81,40 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public List<Article> selectArticleByTags(int id, String tag) {
         Article article=new Article();
-        String[] tags=tag.split(",");
-        String newTag="";
-        for (int i=0;i<tags.length;i++){
-            if (i==tags.length-1){
-                newTag=newTag+tags[i];
-            }else{
-                newTag=newTag+tags[i]+"|";
-            }
-        }
+        String newTag=buileString(tag,",");
         article.setId(id);
         article.setTag(newTag);
         return articleDAO.selectArticleByTags(article);
+    }
+
+    @Override
+    public Map<String, Object> selectArticleDTOByTitleLike(String selectArticleText, int pageNum, int pageSize) {
+        Map<String,Object> result=new HashMap<>();
+        String newSelectArticleText=buileString(selectArticleText," ");
+        int pageCount=articleDAO.selectArticleCountByTitleLike(newSelectArticleText);
+        pageCount=articleUtil.buildPageCount(pageCount,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleDTO> articleDTOList=articleDAO.selectArticleDTOByTitleLike(newSelectArticleText);
+        if (articleDTOList!=null && articleDTOList.size()>0 && pageCount>0){
+            result.put("pageCount", pageCount);
+            result.put("pageNum", pageNum);
+            result.put("code", 200);
+            result.put("articleListQuary",articleDTOList);
+        }
+        return result;
+    }
+
+    private String buileString(String selectArticleText,String regex) {
+        String[] text=selectArticleText.split(regex);
+        String newText="";
+        for (int i=0;i<text.length;i++){
+            if (i==text.length-1){
+                newText=newText+text[i];
+            }else{
+                newText=newText+text[i]+"|";
+            }
+        }
+        return newText;
     }
 
 

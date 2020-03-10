@@ -18,6 +18,8 @@ spring:
     baselineOnMigrate: true
     enabled: true
     locations: classpath:db/migration
+  thymeleaf:
+    cache: false
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

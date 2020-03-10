@@ -1,5 +1,7 @@
 package com.student.community.interceptor;
 
+import com.student.community.dao.INotificationDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
@@ -22,8 +24,11 @@ public class WebConfig implements WebMvcConfigurer {
         sessionRegistry.excludePathPatterns("/error");
 
         sessionRegistry.excludePathPatterns("/static/**");
-        sessionRegistry.excludePathPatterns("/js/**");
-        sessionRegistry.excludePathPatterns("/image/**");
+//        sessionRegistry.excludePathPatterns("/js/**");
+//        sessionRegistry.excludePathPatterns("/image/**");
+//        sessionRegistry.excludePathPatterns("/images/**");
+//        sessionRegistry.excludePathPatterns("/fonts/**");
+//        sessionRegistry.excludePathPatterns("/css/**");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
