@@ -30,4 +30,12 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
 
+logging:
+  file: logs/community.log
+  file.max-size: 100MB
+  file.max-history: 30
+  level:
+    root: info
+    com.student.community.dao: debug
+
 
