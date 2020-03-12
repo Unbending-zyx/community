@@ -29,6 +29,7 @@ public class AuthorizeController {
     private LoginUtil loginUtil;
     @Autowired
     private UserUtil userUtil;
+    
 
     @Value("${github.client.id}")
     private String clientId;
