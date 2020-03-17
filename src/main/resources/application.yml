@@ -38,4 +38,11 @@ logging:
     root: info
     com.student.community.dao: debug
 
+file:
+  #项目访问资源路径
+  staticAccessPath: /static/image/
+  #window下文件上传路径
+  uploadFolder: e://upload/image/
+  #linux下文件上传路径
+  #uploadFolder: /root/upload/communityUploadImage/
 

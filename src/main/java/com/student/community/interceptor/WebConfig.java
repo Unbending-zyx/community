@@ -1,14 +1,19 @@
 package com.student.community.interceptor;
 
-import com.student.community.dao.INotificationDAO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
+
+    //图片上传的真实路径
+    @Value("${file.uploadFolder}")
+    private String uploadFolder;
+    //图片读取的请求路径
+    @Value("${file.staticAccessPath}")
+    private String staticAccessPath;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -25,14 +30,17 @@ public class WebConfig implements WebMvcConfigurer {
 
         sessionRegistry.excludePathPatterns("/static/**");
 //        sessionRegistry.excludePathPatterns("/js/**");
-//        sessionRegistry.excludePathPatterns("/image/**");
+        sessionRegistry.excludePathPatterns("/static/image/**");
 //        sessionRegistry.excludePathPatterns("/images/**");
 //        sessionRegistry.excludePathPatterns("/fonts/**");
 //        sessionRegistry.excludePathPatterns("/css/**");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler(staticAccessPath+"**")
+                .addResourceLocations("file:"+uploadFolder,"classpath:/static/image/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
     }
 
 }

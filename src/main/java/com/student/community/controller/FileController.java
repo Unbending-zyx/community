@@ -19,6 +19,12 @@ import java.util.Map;
 @RequestMapping("/file")
 public class FileController {
 
+    //图片上传的真实路径
+    @Value("${file.uploadFolder}")
+    private String uploadFolder;
+    //图片读取的请求路径
+    @Value("${file.staticAccessPath}")
+    private String staticAccessPath;
 
 
 
@@ -33,7 +39,9 @@ public class FileController {
         String suffix = trueFileName.substring(trueFileName.lastIndexOf("."));
         String fileName = System.currentTimeMillis()+"_"+ RandomStringUtils.randomNumeric(10) +suffix;
 //        String path = uploadPath;
-        String path = this.getClass().getResource("/").getPath()+"static/image/";
+//        String path = this.getClass().getResource("/").getPath()+"static/image/";
+        String path=uploadFolder;
+
 
         File targetFile = new File(path, fileName);
         if(!targetFile.exists()){
@@ -51,7 +59,7 @@ public class FileController {
 
         result.put("success",1);
         result.put("message","测试");
-        result.put("url", "/static/image/"+fileName);
+        result.put("url", staticAccessPath+fileName);
         return result;
     }
 }
