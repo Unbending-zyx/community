@@ -47,7 +47,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="/message/show">消息中心</a></li>
-                                    <li><a href="#">个人资料</a></li>
+                                    <li th:if="${session.user.getGitName()==null}"><a href="/person/show">个人资料</a></li>
                                     <li><a href="/login/loginout">退出登录</a></li>
                                 </ul>
                             </li>

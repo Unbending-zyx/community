@@ -71,4 +71,30 @@
       avatarUrl=#{avatarUrl}
       where username=#{username}
     </update>
+
+    <select id="selectUserById" resultType="User">
+        SELECT
+        id,
+        gitAccountId,
+        username,
+        password,
+        gitName,
+        gitBio,
+        accountName,
+        token,
+        createTime,
+        updateTime,
+        avatarUrl
+        FROM user WHERE id=#{id}
+    </select>
+
+    <update id="updateUserAndPwdById">
+        update user
+        set
+        password=#{password},
+        gitBio=#{gitBio},
+        accountName=#{accountName},
+        updateTime=#{updateTime}
+        where id=#{id}
+    </update>
 </mapper>

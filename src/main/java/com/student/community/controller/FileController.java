@@ -1,5 +1,6 @@
 package com.student.community.controller;
 
+import com.student.community.enums.StatusCode;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -57,8 +58,8 @@ public class FileController {
             e.printStackTrace();
         }
 
-        result.put("success",1);
-        result.put("message","测试");
+        result.put("code", StatusCode.SUCCESS.getType());
+        result.put("msg",StatusCode.SUCCESS.getDesc());
         result.put("url", staticAccessPath+fileName);
         return result;
     }

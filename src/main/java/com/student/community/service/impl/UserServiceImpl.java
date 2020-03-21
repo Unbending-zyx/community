@@ -41,4 +41,14 @@ public class UserServiceImpl implements IUserService {
     public int updateUseByUserName(User user) {
         return userDAO.updateUseByUserName(user);
     }
+
+    @Override
+    public User selectUserById(User user) {
+        return userDAO.selectUserById(user);
+    }
+
+    @Override
+    public int updateUserAndPwdById(User user) {
+        return userDAO.updateUserAndPwdById(user);
+    }
 }

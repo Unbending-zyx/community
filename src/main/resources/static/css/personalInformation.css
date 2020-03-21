@@ -1,0 +1,22 @@
+body{
+    background-color: #efefef;
+}
+
+.main{
+    background-color: white;
+    margin: 30px;
+    padding-bottom: 15px;
+}
+
+.imgSize{
+    width: 120px;
+    height: 120px;
+}
+
+.iconSpan{
+    margin-left: 20px;
+}
+
+.iconSpan:hover{
+    color: #00a8c6;
+}

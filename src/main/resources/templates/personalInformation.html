@@ -1,0 +1,84 @@
+<!--个人资料-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个人资料</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="../static/css/toastr.css"/>
+    <link rel="stylesheet" href="../static/css/personalInformation.css"/>
+    <script src="../static/js/jquery-3.4.1.js" type="application/javascript"></script>
+    <script src="../static/js/toastr.js" type="application/javascript"></script>
+    <script src="../static/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="../static/js/personalInformation.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人信息</h2>
+            <hr>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="text-align: center;">
+                    <img id="avatar" src="/static/image/avatar.jpeg" class="img-rounded imgSize">
+                    <br/>
+                    <!--上传图片-->
+                    <form id="imgUploadForm" enctype='multipart/form-data' style="display:none;">
+                        <div class="form-group">
+                            <label for="imgUploadFormInput">上传头像</label>
+                            <input id="imgUploadFormInput" name="imgUploadFormInput" type="file" class="form-control-file">
+                        </div>
+                    </form>
+                    <button id="imgUploadBtn" type="button" class="btn btn-primary" style="margin-top: 10px;">更换头像</button>
+                </div>
+
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="text-align: center;">
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">用户名：</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="username" readonly="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">密码：</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">昵称：</label>
+                            <div class="col-sm-10">
+                                <input id="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio" class="col-sm-2 control-label">简介：</label>
+                            <div class="col-sm-10">
+                                <textarea id="bio" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="subBtn" type="button" class="btn btn-success" style="float: right;">修改</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 style="font-weight: bold;margin-top: 20px;">站长微信</h4>
+                <img class="img-rounded" width="200px" height="200px" src="/static/image/wechat.png">
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>
