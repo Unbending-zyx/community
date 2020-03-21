@@ -69,11 +69,13 @@ function pageInit(response) {
         var password = $('#password');
         var name = $('#name');
         var bio = $('#bio');
+        var avatar=$('#avatar');
 
         username.val(response.user.username);
         password.val(response.user.password);
         name.val(response.user.accountName);
         bio.val(response.user.gitBio);
+        avatar.attr("src",response.user.avatarUrl);
     } else {
         toastr.warning(response.msg);
     }
