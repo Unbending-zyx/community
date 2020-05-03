@@ -58,9 +58,10 @@ public class FileController {
             e.printStackTrace();
         }
 
-        result.put("code", StatusCode.SUCCESS.getType());
-        result.put("msg",StatusCode.SUCCESS.getDesc());
+        result.put("success", 1);
+        result.put("message",StatusCode.SUCCESS.getDesc());
         result.put("url", staticAccessPath+fileName);
+
         return result;
     }
 }
